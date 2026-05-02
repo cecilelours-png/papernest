@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+  <html lang="fr-FR" class="no-js no-svg">
+
+  <head>
+        <title>papernest, LA solution pour gérer tous vos contrats</title>
+        <meta name="description" content="papernest, c'est la web-application 100% gratuite, construite pour que les contrats de votre déménagement se traitent à la vitesse de l'éclair.">
+        <meta name="language" content="fr_FR">
+        <meta name='referrer' content='no-referrer-when-downgrade' ><meta name='google-site-verification' content='YQQUtWx_RedmQSmxth6JevhNty-fJEr6lws7gJus2ZI' ><meta name='google-site-verification' content='RdnYAPlH7sIOAkY2awNLNavLgPrK9uCw4KqZdp8o7VY' >        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="og:country-name" content="France">
+        <meta name="language" content="fr_FR">
+        <link rel="profile" href="http://gmpg.org/xfn/11">
+        <link rel="preconnect" href="https://www.google-analytics.com/">
+
+        <style>
+                        @font-face {
+                font-family: "Avenir";
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: local("Avenir-Book"),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-Book.woff2) format('woff2'),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-Book.woff) format('woff'),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-Book.otf) format('ttf');
+            }
+            @font-face {
+                font-family: "Avenir";
+                font-style: normal;
+                font-weight: 600;
+                font-display: swap;
+                src: local("Avenir-Medium"),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-Medium.woff2) format('woff2'),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-Medium.woff) format('woff'),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-Medium.otf) format('ttf');
+            }
+            @font-face {
+                font-family: "Avenir";
+                font-style: normal;
+                font-weight: 800;
+                font-display: swap;
+                src: local("Avenir-heavy"),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-heavy.woff2) format('woff2'),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-heavy.woff) format('woff'),
+                url(https://d3hnpjuhtg6oio.cloudfront.net/wp-content/themes/pn-origami/assets/dist/fonts/avenir/Avenir-heavy.otf) format('ttf');
+            }
+            :root {
+                --font-name: "Avenir", "Helvetica Neue", Arial, sans-serif;
+                --fw-regular: 400;
+                --fw-medium: 600;
+                --fw-heavy: 800;
+            }
+        </style>
+
+    <style>:root{--font-c-global: hsl(233, 28%, 29%);--font-c-global-light: hsl(230, 11%, 55%)}body{--c-primary-h: 243;--c-primary-s: 100%;--c-primary-l: 66%;--c-secondary-h: 173;--c-secondary-s: 98%;--c-secondary-l: 39%;--c-tertiary-h: 41;--c-tertiary-s: 97%;--c-tertiary-l: 55%;--c-forth-h: 344;--c-forth-s: 98%;--c-forth-l: 65%;--c-grey-h: 230;--c-grey-s: 11%;--c-grey-l: 55%;--c-white: #ffffff;--c-black: #000000;--c-black-light: #212431;--c-red: #f2545b;--c-red-dark: #ed121d;--c-periwinkle-dark: #a5b0d8;--c-periwinkle: #c3cae5;--c-periwinkle-light: #f1f3ff;--c-periwinkle-lighter: #f7f8fd;--c-emerald: #1c865e;--c-cornflower: #4842cc;--c-transparent: transparent;--c-error: var(--c-red);--c-error-hover: var(--c-red-dark);--c-success: var(--c-primary);--c-success-hover: var(--c-primary-darker);--c-inactive: var(--c-periwinkle);--c-inactive-hover: var(--c-periwinkle-dark);--br-c-base: var(--c-grey-light);--br-c-light: var(--c-grey-lighter);--br-c-error: var(--c-error);--br-c-error-hover: var(--c-error-hover);--br-c-success: var(--c-success);--br-c-success-hover: var(--c-success-hover);--bg-white: var(--c-white);--bg-main-dark: var(--c-periwinkle);--bg-main: var(--c-periwinkle-light);--bg-main-light: var(--c-periwinkle-lighter);--c-grey-shadow: hsla( var(--c-grey-h), var(--c-grey-s), var(--c-grey-l), 0.2 );--c-primary-shadow: hsla( var(--c-primary-h), var(--c-primary-s), var(--c-primary-l), 0.2 );--c-secondary-shadow: hsla( var(--c-secondary-h), var(--c-secondary-s), var(--c-secondary-l), 0.2 );--icon-c: var(--c-periwinkle);--c-rgb-black: 0, 0, 0;--c-overlay: rgba(0, 0, 0, 0.4);--c-opacity: 100;--c-primary: hsla( var(--c-primary-h), var(--c-primary-s), var(--c-primary-l), var(--c-opacity) );--c-primary-light: hsla( var(--c-primary-h), var(--c-primary-s), calc(var(--c-primary-l) + 20%), var(--c-opacity) );--c-primary-lighter: hsla( var(--c-primary-h), var(--c-primary-s), 97%, var(--c-opacity) );--c-primary-dark: hsla( var(--c-primary-h), var(--c-primary-s), calc(var(--c-primary-l) - 15%), var(--c-opacity) );--c-primary-darker: hsla( var(--c-primary-h), var(--c-primary-s), calc(var(--c-primary-l) - 30%), var(--c-opacity) );--c-secondary: hsla( var(--c-secondary-h), var(--c-secondary-s), var(--c-secondary-l), var(--c-opacity) );--c-secondary-light: hsla( var(--c-secondary-h), var(--c-secondary-s), calc(var(--c-secondary-l) + 20%), var(--c-opacity) );--c-secondary-lighter: hsla( var(--c-secondary-h), var(--c-secondary-s), 97%, var(--c-opacity) );--c-secondary-dark: hsla( var(--c-secondary-h), var(--c-secondary-s), calc(var(--c-secondary-l) - 15%), var(--c-opacity) );--c-secondary-darker: hsla( var(--c-secondary-h), var(--c-secondary-s), calc(var(--c-secondary-l) - 30%), var(--c-opacity) );--c-tertiary: hsla( var(--c-tertiary-h), var(--c-tertiary-s), var(--c-tertiary-l), var(--c-opacity) );--c-tertiary-light: hsla( var(--c-tertiary-h), var(--c-tertiary-s), calc(var(--c-tertiary-l) + 20%), var(--c-opacity) );--c-tertiary-lighter: hsla( var(--c-tertiary-h), var(--c-tertiary-s), 97%, var(--c-opacity) );--c-tertiary-dark: hsla( var(--c-tertiary-h), var(--c-tertiary-s), calc(var(--c-tertiary-l) - 15%), var(--c-opacity) );--c-tertiary-darker: hsla( var(--c-tertiary-h), var(--c-tertiary-s), calc(var(--c-tertiary-l) - 30%), var(--c-opacity) );--c-forth: hsla( var(--c-forth-h), var(--c-forth-s), var(--c-forth-l), var(--c-opacity) );--c-forth-light: hsla( var(--c-forth-h), var(--c-forth-s), calc(var(--c-forth-l) + 20%), var(--c-opacity) );--c-forth-lighter: hsla( var(--c-forth-h), var(--c-forth-s), 97%, var(--c-opacity) );--c-forth-dark: hsla( var(--c-forth-h), var(--c-forth-s), calc(var(--c-forth-l) - 15%), var(--c-opacity) );--c-forth-darker: hsla( var(--c-forth-h), var(--c-forth-s), calc(var(--c-forth-l) - 30%), var(--c-opacity) );--c-grey: hsla( var(--c-grey-h), var(--c-grey-s), var(--c-grey-l), var(--c-opacity) );--c-grey-light: hsla( var(--c-grey-h), var(--c-grey-s), calc(var(--c-grey-l) + 20%), var(--c-opacity) );--c-grey-lighter: hsla( var(--c-grey-h), var(--c-grey-s), 97%, var(--c-opacity) );--c-grey-dark: hsla( var(--c-grey-h), var(--c-grey-s), calc(var(--c-grey-l) - 15%), var(--c-opacity) );--c-grey-darker: hsla( var(--c-grey-h), var(--c-grey-s), calc(var(--c-grey-l) - 30%), var(--c-opacity) )}</style>
+
+<link rel='stylesheet' href='https://d11o8pt3cttu38.cloudfront.net/wp-content/build/css/papernest/_generic.3b7492570bc6b85f6ded.css' id='_generic'/>
+<link rel="shortcut icon" href="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2025/11/group-7654.svg">
+<link rel="stylesheet" href="https://d11o8pt3cttu38.cloudfront.net/wp-content/build/css/tailwind.ba829780b972b9d972a646089a170812.css" id="tailwind" />
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+</head>
+
+<body class="home papernest-page-template-default page page-id-23531 wp-custom-logo wp-embed-responsive" id="body">
+
+<header class="fixed top-0 left-0 right-0 bg-white border-b border-[#E0E1E5] z-50">
+    <div class="md:container lg:mx-auto md:max-w-screen-2xl">
+        <input type="checkbox" autocomplete="off" id="js-burger-input" class="hidden" name="burger">
+        <nav class="relative flex items-center justify-between lg:px-4 py-4">
+            <div class="xl:hidden flex items-center justify-between w-full px-4 relative z-50">
+                <a href="https://www.papernest.com/" class="flex items-center">
+                    <img src="https://d11o8pt3cttu38.cloudfront.net/wp-content/themes/pn-origami/assets/papernest/images/pn-logo.svg" alt="papernest" loading="lazy">
+                </a>
+                <label for="js-burger-input" class="cursor-pointer">
+                    <div class="w-6 h-6 flex flex-col justify-between">
+                        <span class="w-full h-0.5 bg-gray-800 transform transition-all duration-300"></span>
+                        <span class="w-full h-0.5 bg-gray-800 transform transition-all duration-300"></span>
+                        <span class="w-full h-0.5 bg-gray-800 transform transition-all duration-300"></span>
+                    </div>
+                </label>
+            </div>
+            <a href="https://www.papernest.com/" class="hidden xl:flex items-center relative z-50">
+                <img src="https://d11o8pt3cttu38.cloudfront.net/wp-content/themes/pn-origami/assets/papernest/images/pn-logo.svg" alt="papernest" loading="lazy">
+            </a>
+        </nav>
+    </div>
+</header>
+
+<div class="h-[72px]"></div>
+
+<main>
+    <article>
+        <section class="hero hero--row">
+            <div class="container">
+                <article class="hero__image">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2025/11/tous-vos-contrats-et-abonnements-.png" alt="Tous vos contrats et abonnements avec papernest">
+                </article>
+                <article class="hero__content highlighted">
+                    <h1><b>Tous <span>vos contrats et abonnements.</span><br>En quelques clics, tout simplement.</b></h1>
+                    <p><i>Électricité, gaz, box internet, forfait mobile, assurance habitation, thermostats connectés, presse écrite ...</i></p>
+                    <p>👉 100% gratuit ! Un seul espace pour centraliser, souscrire, basculer et résilier librement tous ses contrats et abonnements en quelques clics.</p>
+                    <div class='cta-container__fit'>
+                        <a href='https://app.papernest.com/home/' target='_blank' class='cta pn-radius second fit'>Accéder à mon espace client</a>
+                        <a href='https://app.papernest.com/welcome?linkGenerator=1&pole=marketing&source=organic_acquisition&source2=papernest.com&goal=acquisition&segment=FVP&medium=cta-header' target='_blank' class='cta pn-radius fit'>Je découvre</a>
+                    </div>
+                    <div class="trustpilot-widget" data-locale="fr-FR" data-template-id="5419b6ffb0d04a076446a9af" data-businessunit-id="5a9d563807bd93000134a071" data-style-height="60px" data-style-width="180px" data-theme="light" data-review-languages="fr-FR" data-stars="4,5">
+                        <a href="https://fr.trustpilot.com/review/papernest.com" target="_blank" rel="noopener">Trustpilot</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <header class="component-header container">
+            <h2><b>Alors, qu'est-ce qu'on fait pour vous ?</b></h2>
+        </header>
+
+        <section class="cards align-center cards--border">
+            <div class="container highlighted">
+                <article class="card">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2021/06/1-home-01.png" alt="déménagement contrats">
+                    <p class="h2"><span><b>Je déménage <br>mes contrats</b></span></p>
+                    <p>Transférez tous les contrats de votre logement <span>en 15 mn</span>.</p>
+                    <div class='cta-container__fullwidth'>
+                        <a href='https://www.papernest.com/papernest-move/' target='_self' class='cta fullwidth'>C'est parti ! 🚀</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2021/06/1-home-2.png" alt="1 - Home 2">
+                    <p class="h2"><span><b>Je réduis <br>mes factures</b></span></p>
+                    <p>Économisez jusqu'à <span>850€/an</span> sur les charges de votre logement</p>
+                    <div class='cta-container__fullwidth'>
+                        <a href='https://www.papernest.com/papernest-switch/' target='_self' class='cta fullwidth'>C'est parti ! 🚀</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2021/06/1-home-3.png" alt="1 - Home 3">
+                    <p class="h2"><span><b>Je pilote <br>mes abonnements</b></span></p>
+                    <p>Centralisez et gérez tous les abonnements depuis un seul espace.</p>
+                    <div class='cta-container__fullwidth'>
+                        <a href='https://www.papernest.com/papernest-monitor/' target='_self' class='cta fullwidth'>C'est parti ! 🚀</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="illu-text illu-text--reverse">
+            <div class="container">
+                <article class="illu-text__image illu-text__image--center">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2021/06/1-home-04.png" alt="illustration application papernest">
+                </article>
+                <article class="illu-text__content">
+                    <h2><b>Une <span>solution intelligente</span> pour tous vos contrats et abonnements.</b></h2>
+                    <p>Souscrivez, basculez, transférez, résiliez tous vos contrats et abonnements, tout simplement. Électricité, gaz, box internet, forfait mobile, assurance habitation, assistance, Netflix, Spotify, salle de sport, carte de transport, presse... Tout ça, au même endroit. Quelques clics. Zéro blabla.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="illu-text">
+            <div class="container">
+                <article class="illu-text__image illu-text__image--center">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2021/06/1-home-05.png" alt="illustration Home">
+                </article>
+                <article class="illu-text__content">
+                    <h2><b>Vos démarches, sans la paperasse.</b></h2>
+                    <p>Oubliez les heures de stress, les papiers introuvables, les services client injoignables. On s'occupe de toutes les démarches administratives auprès des fournisseurs. Et vous, vous respirez.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="illu-text illu-text--reverse">
+            <div class="container">
+                <article class="illu-text__image illu-text__image--center">
+                    <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2021/06/1-home-06.png" alt="1 - Home 06">
+                </article>
+                <article class="illu-text__content">
+                    <h2><b>On le fait avec vous 💜</b></h2>
+                    <p>Nos conseillers sont à votre disposition pour vous éclairer dans vos choix, vos questions et vos démarches. Et ça, tous les jours de la semaine, par téléphone, par chat ou par email.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="info-contact">
+            <div class="container info-contact__container">
+                <img loading="lazy" src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2022/08/7-website-cropped.svg" alt="7 - Website cropped">
+                <article class="info-contact__content">
+                    <p class="h2">Contactez-nous pour une demande d'infos au <b><span><a href="tel:09 77 42 34 30">09 77 42 34 30</a></span></b></p>
+                    <div class="contact">
+                        <p class="contact__text"><b>ou par mail à l'adresse : </b><a href="mailto:service-client@papernest.com">service-client@papernest.com</a></p>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </article>
+</main>
+
+<nav id="nav-footer" class="footer">
+    <div class="footer__grid container">
+        <div class="footer__bottom">
+            <div class="bottom-logo">
+                <img src="https://d11o8pt3cttu38.cloudfront.net/wp-content/themes/pn-origami/assets/papernest/images/pn-logo.svg" loading="lazy" class="bottom-logo__logo" alt="Logo papernest">
+            </div>
+            <div class="bottom-left">
+                <p class="bottom-info info--telephone"><a href="tel:0977423430">09 77 42 34 30</a></p>
+                <p class="bottom-info">(09h00 - 21h00) numéro gratuit</p>
+            </div>
+            <div class="bottom-right">
+                <p class="bottom-info">Copyright © papernest.com 2026 – Tous droits réservés</p>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script type='module' src='https://d11o8pt3cttu38.cloudfront.net/wp-content/build/js/papernest/critical.ac8696c0058cbd8a9d9b.js'></script>
+<script type='module' src='https://d11o8pt3cttu38.cloudfront.net/wp-content/build/js/papernest/_generic.a6830b0e0ccf58124a79.js'></script>
+<script type='module' src='https://d11o8pt3cttu38.cloudfront.net/wp-content/build/js/papernest/header.6b85803e8f6d0c0c7a9b.js'></script>
+<script type='module' src='https://d11o8pt3cttu38.cloudfront.net/wp-content/build/js/papernest/footer.3cb09af0782435569b37.js'></script>
+
+</body>
+</html>
