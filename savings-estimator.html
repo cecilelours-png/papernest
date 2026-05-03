@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="fr-FR">
+<head>
+<meta charset="utf-8">
+<title>papernest — Savings Estimator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   papernest — Design tokens
+   ============================================================ */
+:root {
+  --c-primary-h: 243; --c-primary-s: 100%; --c-primary-l: 66%;
+  --c-secondary-h: 173; --c-secondary-s: 98%; --c-secondary-l: 39%;
+  --c-tertiary-h: 41; --c-tertiary-s: 97%; --c-tertiary-l: 55%;
+  --c-forth-h: 344; --c-forth-s: 98%; --c-forth-l: 65%;
+  --c-grey-h: 230; --c-grey-s: 11%; --c-grey-l: 55%;
+
+  --c-white: #ffffff;
+  --c-black: #000000;
+  --c-black-light: #212431;
+  --c-red: #f2545b;
+  --c-red-dark: #ed121d;
+  --c-periwinkle-dark: #a5b0d8;
+  --c-periwinkle: #c3cae5;
+  --c-periwinkle-light: #f1f3ff;
+  --c-periwinkle-lighter: #f7f8fd;
+  --c-emerald: #1c865e;
+  --c-cornflower: #4842cc;
+
+  --c-primary:         hsl(var(--c-primary-h) var(--c-primary-s) var(--c-primary-l));
+  --c-primary-light:   hsl(var(--c-primary-h) var(--c-primary-s) calc(var(--c-primary-l) + 20%));
+  --c-primary-lighter: hsl(var(--c-primary-h) var(--c-primary-s) 97%);
+  --c-primary-dark:    hsl(var(--c-primary-h) var(--c-primary-s) calc(var(--c-primary-l) - 15%));
+  --c-primary-darker:  hsl(var(--c-primary-h) var(--c-primary-s) calc(var(--c-primary-l) - 30%));
+
+  --c-secondary:         hsl(var(--c-secondary-h) var(--c-secondary-s) var(--c-secondary-l));
+  --c-secondary-light:   hsl(var(--c-secondary-h) var(--c-secondary-s) calc(var(--c-secondary-l) + 20%));
+  --c-secondary-lighter: hsl(var(--c-secondary-h) var(--c-secondary-s) 97%);
+  --c-secondary-dark:    hsl(var(--c-secondary-h) var(--c-secondary-s) calc(var(--c-secondary-l) - 15%));
+
+  --c-grey:        hsl(var(--c-grey-h) var(--c-grey-s) var(--c-grey-l));
+  --c-grey-light:  hsl(var(--c-grey-h) var(--c-grey-s) calc(var(--c-grey-l) + 20%));
+  --c-grey-lighter:hsl(var(--c-grey-h) var(--c-grey-s) 97%);
+  --c-grey-dark:   hsl(var(--c-grey-h) var(--c-grey-s) calc(var(--c-grey-l) - 15%));
+
+  --bg-white: var(--c-white);
+  --bg-main: var(--c-periwinkle-light);
+  --bg-main-light: var(--c-periwinkle-lighter);
+
+  --fg-1: hsl(233, 28%, 29%);
+  --fg-2: hsl(230, 11%, 55%);
+  --fg-link: var(--c-primary);
+
+  --c-error: var(--c-red);
+  --c-error-hover: var(--c-red-dark);
+  --c-success: var(--c-secondary);
+
+  --c-grey-shadow:    hsla(var(--c-grey-h), var(--c-grey-s), var(--c-grey-l), 0.2);
+  --c-primary-shadow: hsla(var(--c-primary-h), var(--c-primary-s), var(--c-primary-l), 0.2);
+
+  --font-name: "Nunito", "Avenir", "Helvetica Neue", Arial, sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 600;
+  --fw-heavy: 800;
+
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-micro: 12px;
+  --lh-tight: 1.15;
+  --lh-base: 1.5;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 6px hsla(var(--c-grey-h), var(--c-grey-s), var(--c-grey-l), 0.12);
+  --shadow-md: 0 8px 20px hsla(var(--c-grey-h), var(--c-grey-s), var(--c-grey-l), 0.15);
+  --shadow-cta: 0 6px 16px var(--c-primary-shadow);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  font-family: var(--font-name);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body);
+  line-height: var(--lh-base);
+  color: var(--fg-1);
+  background: var(--bg-main-light);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; }
+p { margin: 0 0 12px; }
+a { color: var(--fg-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.muted { color: var(--fg-2); }
+
+/* ============================================================
+   App shell
+   ============================================================ */
+.app-shell {
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg-main-light);
+}
+
+/* ============================================================
+   Sidebar
+   ============================================================ */
+.app-sidebar {
+  background: var(--c-white);
+  padding: 28px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-md);
+  margin: 16px 0 16px 16px;
+  box-shadow: var(--shadow-sm);
+  min-height: calc(100vh - 32px);
+}
+.app-sidebar__logo { padding: 0 8px 28px; }
+.app-sidebar__logo svg { height: 26px; display: block; width: auto; }
+.app-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.app-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  color: var(--fg-1);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .12s, color .12s;
+  cursor: pointer;
+}
+.app-nav-item:hover { background: var(--c-primary-lighter); text-decoration: none; }
+.app-nav-item.is-active { background: var(--c-primary); color: var(--c-white); font-weight: 600; }
+.app-nav-item.is-active:hover { background: var(--c-primary-dark); }
+.nav-new-pill {
+  background: var(--c-secondary);
+  color: var(--c-white);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+.app-sidebar__logout {
+  color: var(--c-error);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  padding: 10px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  font-family: inherit;
+}
+.app-sidebar__logout:hover { color: var(--c-error-hover); }
+
+/* ============================================================
+   Main area
+   ============================================================ */
+.app-main {
+  padding: 32px 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Topbar */
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.app-greeting {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--fg-1);
+}
+.app-page-head { display: flex; align-items: center; gap: 14px; }
+.app-page-head h1 { margin: 0; font-size: 22px; font-weight: 800; color: var(--fg-1); }
+.app-back {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  border: 0;
+  color: var(--fg-1);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+}
+.app-back:hover { background: var(--c-primary-lighter); }
+
+/* CTAs */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s, color .15s, box-shadow .15s;
+}
+.cta--primary {
+  background: var(--c-primary);
+  color: var(--c-white);
+  box-shadow: var(--shadow-cta);
+  border-radius: var(--radius-pill);
+  padding: 13px 26px;
+}
+.cta--primary:hover { background: var(--c-primary-dark); text-decoration: none; }
+.cta--ghost {
+  background: var(--c-white);
+  color: var(--c-primary);
+  border: 1.5px solid var(--c-primary);
+}
+.cta--ghost:hover { background: var(--c-primary-lighter); text-decoration: none; }
+
+/* Section header */
+.app-sec-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.app-sec-head h2 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+.app-sec-head p { margin: 0; color: var(--fg-2); font-size: 13px; }
+.app-sec-head .app-link {
+  color: var(--c-primary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.app-sec-head .app-link:hover { text-decoration: underline; }
+
+/* ============================================================
+   HOME — Opportunity grid
+   ============================================================ */
+.opp-section { display: flex; flex-direction: column; gap: 16px; }
+.app-opp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.app-opp-card {
+  background: var(--c-white);
+  border-radius: var(--radius-md);
+  padding: 16px 16px 0;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  min-height: 168px;
+}
+.app-opp-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.app-opp-card__price .num { font-size: 16px; font-weight: 800; color: var(--fg-1); }
+.app-opp-card__price .per { font-size: 12px; color: var(--fg-2); margin-left: 1px; }
+.app-opp-card__body { flex: 1; }
+.app-opp-card__cat { font-size: 15px; font-weight: 700; color: var(--fg-1); margin-bottom: 2px; }
+.app-opp-card__provider { font-size: 13px; color: var(--fg-2); }
+.app-opp-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px -16px 0;
+  padding: 10px 16px;
+  border-top: 1px solid var(--c-periwinkle-light);
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.app-opp-card__foot .chev { color: var(--c-grey-light); font-weight: 700; font-size: 16px; }
+.opp-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+.opp-pill--saving { color: hsl(20, 90%, 50%); }
+.opp-pill--saving .opp-pill__dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: hsl(20, 90%, 60%);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--c-white); font-size: 9px; font-weight: 800;
+}
+.opp-pill--ok { color: var(--c-secondary-dark); }
+.opp-pill--ok .opp-pill__check {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--c-secondary);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--c-white); font-size: 9px; font-weight: 800;
+}
+.provider-tile {
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  background: var(--c-white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid var(--c-periwinkle-light);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   HOME — Budget panel
+   ============================================================ */
+.app-budget-panel {
+  background: var(--c-periwinkle-light);
+  border-radius: var(--radius-md);
+  padding: 22px;
+}
+.app-budget-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.6fr;
+  gap: 14px;
+}
+.app-budget-tile {
+  background: var(--c-white);
+  border-radius: var(--radius-md);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+  min-height: 200px;
+}
+.app-budget-tile__illu {
+  display: flex; align-items: center; justify-content: center;
+  height: 88px; margin-bottom: 4px; align-self: center;
+}
+.app-budget-tile__value { font-size: 28px; font-weight: 800; color: var(--fg-1); line-height: 1.1; margin-top: 6px; }
+.app-budget-tile__label { font-size: 13px; color: var(--fg-1); margin-top: 4px; line-height: 1.35; }
+.budget-tile-foot {
+  margin-top: auto; padding-top: 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; font-size: 13px;
+}
+.budget-tile-foot__lbl { color: var(--fg-2); }
+.budget-tile-foot__val { font-weight: 800; color: var(--fg-1); }
+.app-pay-card {
+  background: var(--c-white);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.app-pay-card h3 { margin: 0 0 14px; font-size: 14px; font-weight: 800; }
+.app-pay-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.app-pay-row {
+  display: grid;
+  grid-template-columns: 8px 36px 1fr auto;
+  gap: 10px; align-items: center; font-size: 14px; padding: 4px 0;
+}
+.app-pay-row__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-secondary); }
+.app-pay-row__ico {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--c-primary-lighter); color: var(--c-primary);
+  display: flex; align-items: center; justify-content: center;
+}
+.app-pay-row__main { display: flex; flex-direction: column; gap: 2px; }
+.app-pay-row__name { font-weight: 700; font-size: 14px; }
+.app-pay-row__date { font-size: 12px; color: var(--fg-2); }
+.app-pay-row__amt { font-weight: 700; font-size: 14px; }
+
+/* ============================================================
+   HOME — Bons plans
+   ============================================================ */
+.app-bonsplans-panel { background: #fdf3ec; border-radius: var(--radius-md); padding: 22px; }
+.bonsplans-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 18px;
+}
+.bonsplans-head h2 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+.bonsplans-head p { margin: 0; font-size: 13px; color: var(--fg-2); }
+.bonsplans-arrows { display: flex; gap: 8px; }
+.bonsplans-arrow {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  background: var(--c-white); border: 1px solid var(--c-periwinkle);
+  color: var(--fg-1); font-size: 18px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.bonsplans-arrow:hover { background: var(--c-periwinkle-light); }
+.bonsplans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.bonsplan-card {
+  background: var(--c-white); border-radius: var(--radius-md);
+  padding: 22px 22px 18px; display: flex; flex-direction: column; min-height: 240px;
+}
+.bonsplan-card__icon { margin-bottom: 18px; }
+.bonsplan-card__title { font-size: 16px; font-weight: 800; line-height: 1.3; margin: 0 0 10px; }
+.bonsplan-card__desc { font-size: 13px; color: var(--fg-2); line-height: 1.5; margin: 0; flex: 1; }
+.bonsplan-card__cta {
+  margin-top: 16px; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border: 1.5px solid var(--c-primary); border-radius: var(--radius-md);
+  color: var(--c-primary); font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer;
+}
+.bonsplan-card__cta--teal {
+  border: 0; color: var(--c-secondary); padding: 10px 0;
+  justify-content: flex-start; gap: 6px;
+}
+.bonsplan-card__cta:hover { background: var(--c-primary-lighter); }
+.bonsplan-card__cta--teal:hover { background: transparent; text-decoration: underline; }
+
+/* ============================================================
+   SUBSCRIPTIONS SCREEN
+   ============================================================ */
+.app-subs-shell {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 18px;
+  align-items: flex-start;
+}
+.app-subs-card {
+  background: var(--c-white); border-radius: var(--radius-md);
+  padding: 24px; box-shadow: var(--shadow-sm);
+}
+.app-subs-head h2 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+.app-subs-head p { margin: 0 0 18px; color: var(--fg-2); font-size: 13px; }
+
+/* Tabs */
+.subs-tabs {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--c-periwinkle-light); border-radius: var(--radius-md);
+  padding: 4px; margin-bottom: 18px;
+}
+.subs-tab {
+  background: transparent; border: 0; padding: 12px 16px;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  color: var(--fg-2); cursor: pointer; border-radius: var(--radius-sm);
+  text-align: center; transition: background .15s, color .15s, box-shadow .15s;
+}
+.subs-tab.is-active {
+  background: var(--c-white); color: var(--fg-1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.subs-tab:hover:not(.is-active) { color: var(--fg-1); }
+
+/* Group head */
+.subs-group-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 6px 12px; font-size: 15px; font-weight: 800;
+}
+.app-sub-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+}
+.app-sub-row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto 16px;
+  gap: 14px; align-items: center;
+  padding: 12px 8px;
+  background: transparent; border: 0; border-radius: var(--radius-sm);
+  cursor: pointer; text-align: left; font-family: inherit; width: 100%;
+  transition: background .12s;
+}
+.app-sub-row:hover { background: var(--c-primary-lighter); }
+.app-sub-row.is-highlight { background: var(--c-periwinkle-lighter); }
+.app-sub-row.is-highlight:hover { background: var(--c-periwinkle-light); }
+.app-sub-row__ico {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--c-primary-lighter); color: var(--c-primary);
+  display: flex; align-items: center; justify-content: center;
+}
+.app-sub-row__main { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.app-sub-row__name-line { display: flex; align-items: center; gap: 8px; }
+.app-sub-row__name { font-weight: 700; color: var(--fg-1); font-size: 14px; }
+.app-sub-row__cat { font-size: 12px; color: var(--fg-2); }
+.app-sub-row__amt { font-weight: 700; color: var(--fg-1); font-size: 14px; }
+.app-sub-row__chev { color: var(--c-grey-light); font-weight: 700; font-size: 16px; }
+
+/* Potential offer sub-row */
+.app-sub-row-li { display: flex; flex-direction: column; }
+.app-sub-suboffer {
+  display: grid;
+  grid-template-columns: 44px 1fr auto auto;
+  gap: 14px; align-items: center;
+  padding: 10px 8px; margin: 4px 0 8px;
+  background: hsl(155, 65%, 94%);
+  border-radius: var(--radius-sm);
+  font-size: 13px; cursor: default;
+  animation: subofferIn 0.25s ease;
+}
+@keyframes subofferIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.app-sub-row__ico--green { background: hsl(155, 60%, 86%); color: var(--c-secondary-dark); }
+.app-sub-row__ico--ghost { background: transparent; width: 36px; height: 36px; }
+.app-sub-suboffer__name { font-weight: 700; color: var(--c-secondary-dark); font-size: 13px; }
+.app-sub-suboffer__cat { font-size: 12px; color: var(--fg-2); }
+.app-sub-suboffer__amt { font-weight: 700; color: var(--c-secondary-dark); font-size: 13px; }
+.app-sub-suboffer__msg { font-size: 13px; color: var(--c-secondary-dark); font-weight: 600; }
+
+/* Pills */
+.offer-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 8px 14px; border-radius: var(--radius-pill);
+  font-size: 12px; font-weight: 600; text-decoration: none;
+  white-space: nowrap; cursor: pointer;
+  transition: background .15s, color .15s;
+  position: relative; border: 0; font-family: inherit;
+}
+.offer-pill--cta { background: var(--c-secondary); color: var(--c-white); }
+.offer-pill--cta:hover { background: var(--c-secondary-dark); text-decoration: none; }
+.offer-pill--ok {
+  background: var(--c-white); color: var(--c-secondary-dark);
+  border: 1.5px solid var(--c-secondary); cursor: help;
+}
+.offer-pill--ok:hover { background: hsl(155, 60%, 96%); }
+.offer-tooltip {
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--c-black-light); color: var(--c-white);
+  padding: 8px 12px; border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity .15s, transform .15s; z-index: 10;
+  box-shadow: var(--shadow-md);
+}
+.offer-tooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--c-black-light);
+}
+.offer-pill--ok:hover .offer-tooltip,
+.offer-pill--ok:focus .offer-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Add button */
+.app-add-btn { display: flex; justify-content: center; margin-top: 18px; }
+.app-add-btn .cta { padding: 11px 24px; }
+
+/* ============================================================
+   RIGHT RAIL
+   ============================================================ */
+.subs-rail-wrap { display: flex; flex-direction: column; gap: 16px; }
+.subs-rail-donut {
+  background: var(--c-white); border-radius: var(--radius-md);
+  padding: 24px 24px 22px; box-shadow: var(--shadow-sm);
+}
+.donut-wrap { display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+.donut-center__big { font-size: 22px; font-weight: 800; color: var(--fg-1); }
+.donut-center__sub { font-size: 12px; color: var(--fg-2); }
+.donut-legend { display: flex; flex-direction: column; gap: 12px; }
+.donut-legend__row {
+  display: grid; grid-template-columns: 14px 1fr auto;
+  gap: 10px; align-items: center; font-size: 14px;
+}
+.donut-legend__dot { width: 10px; height: 10px; border-radius: 50%; }
+.donut-legend__amt { font-weight: 600; }
+
+/* Savings bar chart */
+.savings-bars { display: flex; flex-direction: column; gap: 24px; animation: subofferIn 0.3s ease; }
+.savings-bars__hook { margin: 0; font-size: 13px; color: var(--fg-1); line-height: 1.5; }
+.savings-bars__hook strong { color: var(--c-secondary-dark); font-weight: 800; }
+.savings-bars__chart {
+  display: flex; align-items: flex-end; justify-content: space-around;
+  gap: 24px; padding: 8px 0 0;
+  border-bottom: 1px solid var(--c-periwinkle-light);
+  min-height: 220px;
+}
+.savings-bar { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 80px; }
+.savings-bar__top { font-size: 14px; font-weight: 800; color: var(--fg-1); margin-bottom: 8px; }
+.savings-bar__top--save { color: var(--c-secondary-dark); }
+.savings-bar__col { width: 100%; display: flex; align-items: flex-end; }
+.savings-bar__fill {
+  width: 100%; border-radius: 8px 8px 0 0;
+  animation: barGrow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom; height: 100%;
+}
+.savings-bar__fill--before { background: linear-gradient(180deg, var(--c-periwinkle-dark), var(--c-periwinkle)); }
+.savings-bar__fill--after  { background: linear-gradient(180deg, var(--c-secondary), var(--c-secondary-dark)); }
+@keyframes barGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+.savings-bar__lbl { margin-top: 10px; font-size: 13px; color: var(--fg-2); font-weight: 600; }
+
+/* Sync card */
+.subs-sync-card {
+  background: var(--c-white); border-radius: var(--radius-md);
+  padding: 20px; box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.subs-sync-card__head { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: flex-start; }
+.subs-sync-card__dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--c-black-light); margin-top: 4px;
+}
+.subs-sync-card__title { font-size: 14px; font-weight: 800; margin: 0 0 6px; line-height: 1.3; }
+.subs-sync-card__body { font-size: 13px; color: var(--fg-2); margin: 0; line-height: 1.5; }
+.subs-sync-card .cta { width: 100%; justify-content: center; }
+
+/* Footer */
+.app-footer {
+  display: flex; justify-content: center; gap: 18px;
+  padding: 22px 0 0;
+  border-top: 1px solid var(--c-periwinkle-light);
+  margin-top: 8px; font-size: 13px; color: var(--fg-2);
+}
+.app-footer a { color: var(--fg-2); text-decoration: none; }
+.app-footer a:hover { color: var(--fg-1); text-decoration: underline; }
+.app-footer__sep { color: var(--c-periwinkle-dark); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+const { useState } = React;
+
+/* ============================================================
+   ILLUSTRATIONS & ICONS
+   ============================================================ */
+function IluCoins() {
+  return (
+    <svg viewBox="0 0 120 100" width="100" height="84" aria-hidden="true">
+      <defs>
+        <linearGradient id="coin-gold" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#ffd24a"/>
+          <stop offset="1" stopColor="#f5b800"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="35" cy="86" rx="26" ry="6" fill="#e6a200" opacity="0.4"/>
+      <rect x="9" y="58" width="52" height="26" rx="6" fill="url(#coin-gold)"/>
+      <ellipse cx="35" cy="58" rx="26" ry="6" fill="#ffe48a"/>
+      <ellipse cx="35" cy="58" rx="20" ry="4.5" fill="#f5b800" opacity="0.4"/>
+      <rect x="60" y="34" width="22" height="38" rx="3" fill="#5b54ff"/>
+      <rect x="58" y="30" width="22" height="38" rx="3" fill="#7d77ff"/>
+      <rect x="84" y="46" width="20" height="28" rx="3" fill="#03c39c"/>
+      <rect x="82" y="42" width="20" height="28" rx="3" fill="#34d6b3"/>
+      <rect x="74" y="16" width="14" height="22" rx="2" fill="#fa537d"/>
+    </svg>
+  );
+}
+
+function IluGauge({ pct = 75 }) {
+  const segs = [
+    { color: '#fa537d' }, { color: '#5b54ff' },
+    { color: '#03c39c' }, { color: '#facc2a' },
+  ];
+  return (
+    <svg viewBox="0 0 130 90" width="105" height="74" aria-hidden="true">
+      <g transform="translate(65 76)">
+        {segs.map((s, i) => {
+          const a0 = Math.PI - (i * Math.PI / segs.length);
+          const a1 = Math.PI - ((i + 1) * Math.PI / segs.length);
+          const r1 = 56, r2 = 36;
+          const p = (a, r) => `${(Math.cos(a) * r).toFixed(2)} ${(-Math.sin(a) * r).toFixed(2)}`;
+          const d = `M ${p(a0, r1)} A ${r1} ${r1} 0 0 0 ${p(a1, r1)} L ${p(a1, r2)} A ${r2} ${r2} 0 0 1 ${p(a0, r2)} Z`;
+          return <path key={i} d={d} fill={s.color} />;
+        })}
+        <g transform={`rotate(${-180 + (pct * 1.8)})`}>
+          <rect x="-2" y="-50" width="4" height="50" rx="2" fill="#212431"/>
+          <circle r="7" fill="#212431"/>
+          <circle r="3" fill="#fff"/>
+        </g>
+      </g>
+    </svg>
+  );
+}
+
+function IluBox() {
+  return (
+    <svg viewBox="0 0 80 80" width="64" height="64" aria-hidden="true">
+      <defs>
+        <linearGradient id="box-top" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#facc2a"/><stop offset="1" stopColor="#e8a90f"/>
+        </linearGradient>
+        <linearGradient id="box-side" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#d99720"/><stop offset="1" stopColor="#a87211"/>
+        </linearGradient>
+      </defs>
+      <path d="M14 28 L40 18 L66 28 L66 60 L40 70 L14 60 Z" fill="url(#box-top)"/>
+      <path d="M40 38 L66 28 L66 60 L40 70 Z" fill="url(#box-side)"/>
+      <path d="M40 38 L14 28 L14 60 L40 70 Z" fill="#c89019"/>
+      <path d="M28 23 L28 65 L40 70 L40 38 Z" fill="#9a6a0e" opacity="0.55"/>
+      <path d="M40 38 L40 70 L52 65 L52 23 Z" fill="#9a6a0e" opacity="0.35"/>
+      <rect x="26" y="22" width="28" height="6" fill="#fa537d" rx="1"/>
+      <path d="M26 22 L40 28 L54 22 Z" fill="#d4395f"/>
+    </svg>
+  );
+}
+
+function IluShield() {
+  return (
+    <svg viewBox="0 0 80 80" width="64" height="64" aria-hidden="true">
+      <defs>
+        <linearGradient id="shield-grad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#facc2a"/><stop offset="1" stopColor="#d99720"/>
+        </linearGradient>
+      </defs>
+      <path d="M40 10 L62 18 L62 40 C62 54 52 64 40 70 C28 64 18 54 18 40 L18 18 Z"
+            fill="url(#shield-grad)" stroke="#a87211" strokeWidth="1.5"/>
+      <path d="M34 28 L34 56 M34 28 L42 28 C46 28 49 31 49 35 C49 39 46 42 42 42 L34 42"
+            stroke="#5b54ff" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+function IluLeaf() {
+  return (
+    <svg viewBox="0 0 80 80" width="64" height="64" aria-hidden="true">
+      <line x1="40" y1="32" x2="40" y2="72" stroke="#7a8a73" strokeWidth="2.5" strokeLinecap="round"/>
+      <path d="M40 32 C40 22 32 14 22 14 C22 24 30 32 40 32 Z" fill="#03c39c"/>
+      <path d="M40 32 C40 22 48 14 58 14 C58 24 50 32 40 32 Z" fill="#03c39c" opacity="0.85"/>
+      <path d="M40 32 C40 24 36 18 40 8 C44 18 40 24 40 32 Z" fill="#03c39c" opacity="0.7"/>
+    </svg>
+  );
+}
+
+function LogoEDF() {
+  return (
+    <svg viewBox="0 0 32 32" width="28" height="28">
+      <text x="3" y="14" fontSize="8" fontWeight="800" fill="#FE5F1E" fontFamily="Arial">edf</text>
+      <circle cx="22" cy="9" r="2.5" fill="#FE5F1E"/>
+      <circle cx="22" cy="9" r="1" fill="#facc2a"/>
+      <text x="3" y="26" fontSize="6" fontWeight="700" fill="#0a4a8a" fontFamily="Arial">●●●</text>
+    </svg>
+  );
+}
+function LogoLuko() {
+  return <svg viewBox="0 0 56 24" width="48" height="20"><text x="2" y="18" fontSize="18" fontWeight="800" fill="#fa537d" fontFamily="Georgia, serif" fontStyle="italic">luko</text></svg>;
+}
+function LogoFree() {
+  return <svg viewBox="0 0 56 24" width="44" height="20"><text x="2" y="18" fontSize="18" fontWeight="800" fill="#cd1719" fontFamily="Georgia, serif" fontStyle="italic">free</text></svg>;
+}
+
+function IconBolt() {
+  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z" fill="currentColor"/></svg>;
+}
+function IconPhone() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="2.5" stroke="currentColor" strokeWidth="2"/><line x1="11" y1="18" x2="13" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>;
+}
+function IconShield() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
+}
+function IconRun() {
+  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13" cy="4" r="2"/><path d="M4 22 L8 14 L12 16 L9 11 L13 8 L17 12 L20 12"/></svg>;
+}
+function IconBus() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="15" rx="2"/><line x1="4" y1="13" x2="20" y2="13"/><circle cx="8" cy="20" r="1.5"/><circle cx="16" cy="20" r="1.5"/><line x1="8" y1="3" x2="8" y2="6"/><line x1="16" y1="3" x2="16" y2="6"/></svg>;
+}
+function IconMonitor() {
+  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>;
+}
+function IconCalendar() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+function PNLogo() {
+  return (
+    <svg width="130" height="32" viewBox="0 0 167 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fillRule="evenodd" clipRule="evenodd" d="M28.9008 9.3999C24.3008 9.3999 20.3008 13.2999 20.3008 17.9999C20.3008 22.6999 24.2008 26.5999 28.9008 26.5999C29.9008 26.5999 30.7008 25.7999 30.7008 24.7999C30.7008 23.7999 29.9008 23.0009 28.9008 23.0009C26.2008 23.0009 23.9008 20.6999 23.9008 17.9999C23.9008 15.2999 26.2008 12.9999 28.9008 12.9999C31.7008 12.9999 33.9008 15.2999 33.9008 17.9999V26.2999C33.9008 27.2999 34.7008 28.0999 35.7008 28.0999C36.7008 28.0999 37.5008 27.2999 37.5008 26.2999V17.6999V17.3999C37.1008 12.9999 33.4008 9.3999 28.9008 9.3999Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M48.1992 9.5C43.7992 9.5 40.0992 13 39.6992 17.3V17.7V33.3C39.6992 34.3 40.4992 35.1 41.4992 35.1C42.4992 35.1 43.2992 34.3 43.2992 33.3V18.1C43.2992 15.4 45.5992 13.1 48.2992 13.1C50.9992 13.1 53.2992 15.4 53.2992 18.1C53.2992 20.9 50.9992 23.1 48.2992 23.1C47.2992 23.1 46.4992 23.9 46.4992 24.9C46.4992 25.9 47.2992 26.7 48.2992 26.7C52.9992 26.7 56.8992 22.9 56.8992 18.1C56.7992 13.5 52.7992 9.5 48.1992 9.5Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M86.9008 9.30029C82.2008 9.30029 78.3008 12.9003 78.3008 17.4003V25.0003C78.3008 26.0003 79.1008 26.8003 80.1008 26.8003C81.1008 26.8003 81.9008 26.0003 81.9008 25.0003V17.4003C81.9008 14.9003 84.2008 12.9003 86.9008 12.9003C87.9008 12.9003 88.7008 12.1003 88.7008 11.1003C88.7008 10.1003 87.9008 9.30029 86.9008 9.30029Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M67.6 9.5C63 9.5 59 13.4 59 18.1C59 22.8 62.8 26.7 67.6 26.7C68.6 26.7 69.4 25.9 69.4 24.9C69.4 23.9 68.6 23.1 67.6 23.1C64.8 23.1 62.6 20.8 62.6 18.1C62.6 15.4 64.9 13.1 67.6 13.1C69.7 13.1 71.6 14.5 72.3 16.4H68.4C67.4 16.4 66.6 17.2 66.6 18.2C66.6 19.2 67.4 20 68.4 20H74.4C75.4 20 76.2 19.2 76.2 18.2C76.2 13.5 72.2 9.5 67.6 9.5Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M98.4008 9.30029C93.7008 9.30029 89.8008 12.9003 89.8008 17.4003V25.0003C89.8008 26.0003 90.6008 26.8003 91.6008 26.8003C92.6008 26.8003 93.4008 26.0003 93.4008 25.0003V17.4003C93.4008 14.9003 95.7008 12.9003 98.4008 12.9003C101.101 12.9003 103.401 14.9003 103.401 17.4003V25.0003C103.401 26.0003 104.201 26.8003 105.201 26.8003C106.201 26.8003 107.001 26.0003 107.001 25.0003V17.4003C107.001 13.0003 103.101 9.30029 98.4008 9.30029Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M137.7 16.3H133.6C132.7 16.3 132 15.6 132 14.7C132 13.8 132.7 13.1 133.6 13.1H140.5C141.5 13.1 142.301 12.3 142.301 11.3C142.301 10.3 141.5 9.5 140.5 9.5H133.6C130.7 9.5 128.4 11.8 128.4 14.7C128.4 17.6 130.7 19.9 133.6 19.9H137.7C138.6 19.9 139.301 20.6 139.301 21.5C139.301 22.4 138.6 23.1 137.7 23.1H130.801C129.801 23.1 129 23.9 129 24.9C129 25.9 129.801 26.699 130.801 26.699H137.7C140.6 26.699 142.9 24.4 142.9 21.5C142.9 18.6 140.6 16.3 137.7 16.3Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M120.6 10C118.4 9.30002 116.1 9.40002 113.999 10.5C111.9 11.5 110.4 13.3 109.7 15.5C108.999 17.7 109.1 20 110.2 22.1C111.2 24.2 112.999 25.7 115.2 26.4C116.1 26.7 116.999 26.9 117.999 26.9C119.3 26.9 120.6 26.6 121.8 26C122.7 25.6 122.999 24.5 122.6 23.6C122.2 22.7 121.1 22.4 120.2 22.8C118.999 23.4 117.6 23.5 116.3 23.1C114.999 22.7 113.999 21.7 113.3 20.5C112.7 19.3 112.6 17.9 112.999 16.6C113.4 15.3 114.4 14.3 115.6 13.6C116.8 13 118.2 12.9 119.499 13.3C120.2 13.5 120.8 13.9 121.4 14.4L117.9 16.1C116.999 16.5 116.7 17.6 117.1 18.4C117.499 19.3 118.6 19.6 119.4 19.2L124.8 16.6C125.2 16.4 125.6 16 125.7 15.6C125.9 15.2 125.8 14.7 125.6 14.2C124.499 12.2 122.8 10.7 120.6 10Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M163.301 16.2C162.301 16.2 161.5 17 161.5 18C161.5 20.8 159.2 23 156.5 23C153.801 23 151.5 20.7 151.5 18V13H154.901C155.901 13 156.7 12.2 156.7 11.2C156.7 10.2 155.901 9.4 154.901 9.4H151.5V6.8C151.5 5.8 150.7 5 149.7 5C148.7 5 147.901 5.8 147.901 6.8V9.4H146.301C145.301 9.4 144.5 10.2 144.5 11.2C144.5 12.2 145.301 13 146.301 13H147.901V18C147.901 22.7 151.7 26.6 156.5 26.6C161.2 26.6 165.101 22.8 165.101 18C165.101 17 164.301 16.2 163.301 16.2Z" fill="#5A52FF"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M9.5 9.3999C5 9.3999 1.3 12.8999 1 17.3999V17.6999V33.2999C1 34.2999 1.8 35.0999 2.8 35.0999C3.8 35.0999 4.6 34.2999 4.6 33.2999V17.9999C4.6 15.1999 6.9 12.9999 9.6 12.9999C12.3 12.9999 14.6 15.2999 14.6 17.9999C14.6 20.6999 12.3 23.0009 9.6 23.0009C8.6 23.0009 7.8 23.7999 7.8 24.7999C7.8 25.7999 8.6 26.5999 9.6 26.5999C14.2 26.5999 18.2 22.6999 18.2 17.9999C18.2 13.2999 14.1 9.3999 9.5 9.3999Z" fill="#5A52FF"/>
+    </svg>
+  );
+}
+
+/* ============================================================
+   SHARED: Footer + Sidebar
+   ============================================================ */
+function AppFooter() {
+  return (
+    <footer className="app-footer">
+      <a href="#" onClick={e=>e.preventDefault()}>Politique de confidentialité</a>
+      <span className="app-footer__sep">•</span>
+      <a href="#" onClick={e=>e.preventDefault()}>Notre méthodologie</a>
+      <span className="app-footer__sep">•</span>
+      <a href="#" onClick={e=>e.preventDefault()}>Conditions générales d'utilisation</a>
+    </footer>
+  );
+}
+
+function AppSidebar({ active, onNav }) {
+  const items = [
+    { k: 'home',    lbl: 'Accueil' },
+    { k: 'subs',    lbl: 'Gérer mes abonnements' },
+    { k: 'consum',  lbl: 'Mon suivi consommation', isNew: true },
+    { k: 'reduce',  lbl: 'Réduire mes factures' },
+    { k: 'data',    lbl: 'Mes données personnelles', onlyOn: 'home' },
+    { k: 'profile', lbl: 'Profil' },
+  ];
+  return (
+    <aside className="app-sidebar">
+      <div className="app-sidebar__logo"><PNLogo /></div>
+      <nav className="app-sidebar__nav">
+        {items
+          .filter(it => !it.onlyOn || it.onlyOn === active)
+          .map(it => (
+            <a key={it.k} href="#"
+               onClick={e => { e.preventDefault(); onNav && onNav(it.k); }}
+               className={"app-nav-item" + (active === it.k ? " is-active" : "")}>
+              <span>{it.lbl}</span>
+              {it.isNew && <span className="nav-new-pill">New</span>}
+            </a>
+          ))}
+      </nav>
+      <button className="app-sidebar__logout" onClick={e=>e.preventDefault()}>Se déconnecter</button>
+    </aside>
+  );
+}
+
+/* ============================================================
+   HOME SCREEN
+   ============================================================ */
+function OppCard({ logo, price, category, providerName, status }) {
+  return (
+    <article className="app-opp-card">
+      <div className="app-opp-card__top">
+        <div className="provider-tile">{logo}</div>
+        <div className="app-opp-card__price">
+          <span className="num">{price}€</span><span className="per">/mois</span>
+        </div>
+      </div>
+      <div className="app-opp-card__body">
+        <div className="app-opp-card__cat">{category}</div>
+        <div className="app-opp-card__provider">{providerName}</div>
+      </div>
+      <a href="#" className="app-opp-card__foot" onClick={e=>e.preventDefault()}>
+        {status === 'saving'
+          ? <span className="opp-pill opp-pill--saving"><span className="opp-pill__dot">!</span>économies détectées</span>
+          : <span className="opp-pill opp-pill--ok"><span className="opp-pill__check">✓</span>souscrit via papernest</span>}
+        <span className="chev">›</span>
+      </a>
+    </article>
+  );
+}
+
+function PayRow({ icon, name, date, amount }) {
+  return (
+    <li className="app-pay-row">
+      <span className="app-pay-row__dot"></span>
+      <span className="app-pay-row__ico">{icon}</span>
+      <span className="app-pay-row__main">
+        <span className="app-pay-row__name">{name}</span>
+        <span className="app-pay-row__date">{date}</span>
+      </span>
+      <span className="app-pay-row__amt">{amount}</span>
+    </li>
+  );
+}
+
+function HomeScreen({ onNav }) {
+  return (
+    <div className="app-main">
+      <header className="app-topbar">
+        <h1 className="app-greeting">Bonjour Margaux 👋</h1>
+        <a href="#" className="cta cta--ghost" onClick={e=>e.preventDefault()}>
+          <IconCalendar /> Prendre rdv avec un conseiller
+        </a>
+      </header>
+
+      <section className="opp-section">
+        <div className="app-sec-head">
+          <div>
+            <h2>Mes opportunités d'économie</h2>
+            <p>Réduisez vos factures ! On repère les meilleures opportunités du moment, vous n'avez plus qu'à dire oui.</p>
+          </div>
+        </div>
+        <div className="app-opp-grid">
+          <OppCard logo={<LogoEDF />}  price="158" category="Énergie"              providerName="EDF"  status="saving" />
+          <OppCard logo={<LogoLuko />} price="93"  category="Assurance habitation" providerName="Luko" status="saving" />
+          <OppCard logo={<LogoFree />} price="38"  category="Box internet"         providerName="Free" status="ok" />
+          <OppCard logo={<LogoFree />} price="18"  category="Forfait mobile"       providerName="Free" status="ok" />
+        </div>
+      </section>
+
+      <section className="app-budget-panel">
+        <div className="app-sec-head">
+          <div>
+            <h2>Maîtriser mon budget</h2>
+            <p>Pilotez et gardez un œil sur votre budget mensuel dédié à vos abonnements.</p>
+          </div>
+          <a href="#" className="app-link" onClick={e => { e.preventDefault(); onNav && onNav('subs'); }}>
+            Voir tous les abonnements ›
+          </a>
+        </div>
+        <div className="app-budget-grid">
+          <div className="app-budget-tile">
+            <div className="app-budget-tile__illu"><IluCoins /></div>
+            <div className="app-budget-tile__value">298€</div>
+            <div className="app-budget-tile__label">Budget total de mes<br/>abonnements mensuels</div>
+          </div>
+          <div className="app-budget-tile">
+            <div className="app-budget-tile__illu"><IluGauge pct={75} /></div>
+            <div className="app-budget-tile__value">75%</div>
+            <div className="app-budget-tile__label">de mon budget<br/>abonnements est déjà<br/>payé</div>
+            <div className="budget-tile-foot">
+              <span className="budget-tile-foot__lbl">Restant à payer</span>
+              <span className="budget-tile-foot__val">169€</span>
+            </div>
+          </div>
+          <div className="app-pay-card">
+            <h3>Mes 3 prochains prélèvements du mois</h3>
+            <ul className="app-pay-list">
+              <PayRow icon={<IconBolt />}    name="Engie"   date="15/01/2025" amount="150,60€" />
+              <PayRow icon={<IconShield />}  name="MAIF"    date="28/01/2025" amount="28,30€" />
+              <PayRow icon={<IconMonitor />} name="Spotify" date="30/01/25"   amount="10,99€" />
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="app-bonsplans-panel">
+        <div className="bonsplans-head">
+          <div>
+            <h2>Bons plans du moment</h2>
+            <p>Ne les ratez surtout pas ! Cette sélection de petites pépites devrait vous plaire.</p>
+          </div>
+          <div className="bonsplans-arrows">
+            <button className="bonsplans-arrow" aria-label="Précédent">‹</button>
+            <button className="bonsplans-arrow" aria-label="Suivant">›</button>
+          </div>
+        </div>
+        <div className="bonsplans-grid">
+          <article className="bonsplan-card">
+            <div className="bonsplan-card__icon"><IluBox /></div>
+            <h3 className="bonsplan-card__title">Vous déménagez ? On vous aide gratuitement !</h3>
+            <p className="bonsplan-card__desc">Transférez gratuitement tous vos contrats vers votre nouvelle adresse.</p>
+            <a href="#" className="bonsplan-card__cta" onClick={e=>e.preventDefault()}>
+              <span>Gérer mon déménagement</span><span>›</span>
+            </a>
+          </article>
+          <article className="bonsplan-card">
+            <div className="bonsplan-card__icon"><IluShield /></div>
+            <h3 className="bonsplan-card__title">Assurez votre logement en toute simplicité</h3>
+            <p className="bonsplan-card__desc">Sur mesure et sans engagement, assurez votre logement au meilleur prix.</p>
+            <a href="#" className="bonsplan-card__cta" onClick={e=>e.preventDefault()}>
+              <span>Obtenir un devis</span><span>›</span>
+            </a>
+          </article>
+          <article className="bonsplan-card">
+            <div className="bonsplan-card__icon"><IluLeaf /></div>
+            <h3 className="bonsplan-card__title">Passez à l'énergie verte et locale</h3>
+            <p className="bonsplan-card__desc">Profitez d'une énergie 100% renouvelable et française.</p>
+            <a href="#" className="bonsplan-card__cta bonsplan-card__cta--teal" onClick={e=>e.preventDefault()}>
+              <span>Voir l'offre</span><span>›</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <AppFooter />
+    </div>
+  );
+}
+
+/* ============================================================
+   SUBSCRIPTIONS SCREEN
+   ============================================================ */
+function Donut({ segs }) {
+  const total = segs.reduce((s, x) => s + parseFloat(x.val.replace(',', '.')), 0);
+  const r = 72, cx = 90, cy = 90, sw = 22;
+  let acc = -Math.PI / 2;
+  const arcs = segs.map((s, i) => {
+    const v = parseFloat(s.val.replace(',', '.'));
+    const a0 = acc;
+    const a1 = acc + (v / total) * Math.PI * 2;
+    acc = a1;
+    const large = a1 - a0 > Math.PI ? 1 : 0;
+    const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+    const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+    return <path key={i} d={`M ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1}`}
+                 fill="none" stroke={s.color} strokeWidth={sw} strokeLinecap="butt"/>;
+  });
+  return (
+    <div style={{ position: 'relative', width: 180, height: 180 }}>
+      <svg viewBox="0 0 180 180" width="180" height="180">{arcs}</svg>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="donut-center__big">396,54€</div>
+        <div className="donut-center__sub">budget abonnements</div>
+      </div>
+    </div>
+  );
+}
+
+function SavingsBars() {
+  const max = 900, chartH = 180;
+  const beforeH = (900 / max) * chartH;
+  const afterH  = (387 / max) * chartH;
+  return (
+    <div className="savings-bars">
+      <p className="savings-bars__hook">
+        Si vous optimisez vos contrats avec ces fournisseurs, vous pourrez économiser <strong>513 €</strong> sur vos dépenses annuelles.
+      </p>
+      <div className="savings-bars__chart">
+        <div className="savings-bar">
+          <div className="savings-bar__top">900 €</div>
+          <div className="savings-bar__col" style={{ height: beforeH }}>
+            <div className="savings-bar__fill savings-bar__fill--before"></div>
+          </div>
+          <div className="savings-bar__lbl">Avant</div>
+        </div>
+        <div className="savings-bar">
+          <div className="savings-bar__top savings-bar__top--save">−513 €</div>
+          <div className="savings-bar__col" style={{ height: afterH }}>
+            <div className="savings-bar__fill savings-bar__fill--after"></div>
+          </div>
+          <div className="savings-bar__lbl">Après</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OfferSubrow({ offer, icon }) {
+  if (offer === 'optimal') {
+    return (
+      <div className="app-sub-row app-sub-suboffer">
+        <span className="app-sub-row__ico app-sub-row__ico--ghost"></span>
+        <span className="app-sub-row__main">
+          <span className="app-sub-suboffer__msg">Vous avez déjà la meilleure offre du marché</span>
+        </span>
+        <span className="offer-pill offer-pill--ok" tabIndex="0">
+          Félicitations 🎉
+          <span className="offer-tooltip" role="tooltip">Vous avez déjà une des meilleures offres du marché</span>
+        </span>
+      </div>
+    );
+  }
+  return (
+    <div className="app-sub-row app-sub-suboffer">
+      <span className="app-sub-row__ico app-sub-row__ico--green">{icon}</span>
+      <span className="app-sub-row__main">
+        <span className="app-sub-suboffer__name">{offer.provider}</span>
+        <span className="app-sub-suboffer__cat">{offer.cat}</span>
+      </span>
+      <span className="app-sub-suboffer__amt">{offer.price}</span>
+      <a className="offer-pill offer-pill--cta"
+         href="https://app.papernest.com/account/mobile/1?cls=19427534"
+         target="_blank" rel="noopener noreferrer">
+        Je veux en savoir plus
+      </a>
+    </div>
+  );
+}
+
+function SubsGroup({ title, total, items, tab }) {
+  return (
+    <div>
+      <div className="subs-group-head">
+        <span>{title}</span><span>{total}</span>
+      </div>
+      <ul className="app-sub-list">
+        {items.map((it, i) => (
+          <li key={i} className="app-sub-row-li">
+            <button className={"app-sub-row" + (it.highlight ? " is-highlight" : "")}>
+              <span className="app-sub-row__ico">{it.icon}</span>
+              <span className="app-sub-row__main">
+                <span className="app-sub-row__name-line">
+                  <span className="app-sub-row__name">{it.name}</span>
+                </span>
+                <span className="app-sub-row__cat">{it.cat}</span>
+              </span>
+              <span className="app-sub-row__amt">{it.amount}</span>
+              <span className="app-sub-row__chev">›</span>
+            </button>
+            {tab === 'potentials' && it.offer && <OfferSubrow offer={it.offer} icon={it.icon} />}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function SubsScreen({ onBack }) {
+  const [tab, setTab] = useState('detected');
+
+  const monthly = [
+    { icon: <IconBolt />,    name: 'Engie',  cat: 'Énergie',              amount: '150,60€', highlight: true,
+      offer: { provider: 'TotalEnergies', cat: 'Énergie', price: '112,40€' } },
+    { icon: <IconPhone />,   name: 'Orange', cat: 'Box internet',          amount: '50,87€',
+      offer: { provider: 'Bouygues Telecom', cat: 'Box internet', price: '34,99€' } },
+    { icon: <IconShield />,  name: 'MAIF',   cat: 'Assurance habitation',  amount: '28,17€', offer: 'optimal' },
+    { icon: <IconPhone />,   name: 'Free',   cat: 'Forfait mobile',        amount: '24,50€',
+      offer: { provider: 'Sosh', cat: 'Forfait mobile', price: '12,99€' } },
+  ];
+  const bimonthly = [
+    { icon: <IconRun />, name: 'Class Pass', cat: 'Sport', amount: '86,40€', offer: 'optimal' },
+  ];
+  const yearly = [
+    { icon: <IconBus />,     name: 'Navigo',  cat: 'Transport public', amount: '45,60€', offer: 'optimal' },
+    { icon: <IconMonitor />, name: 'Spotify', cat: 'Streaming',        amount: '10,40€', offer: 'optimal' },
+  ];
+
+  const segs = [
+    { lbl: 'Logement',       val: '254,14€', color: '#a5b0d8' },
+    { lbl: 'Transport',      val: '86,40€',  color: '#5b54ff' },
+    { lbl: 'Divertissement', val: '56,00€',  color: '#03c39c' },
+    { lbl: 'Productivité',   val: '56,00€',  color: '#facc2a' },
+    { lbl: 'Banque',         val: '56,00€',  color: '#fa537d' },
+    { lbl: 'Divers',         val: '56,00€',  color: '#7d4ad8' },
+  ];
+
+  return (
+    <div className="app-main">
+      <header className="app-page-head">
+        <button className="app-back" onClick={onBack} aria-label="Retour">←</button>
+        <h1>Abonnements</h1>
+      </header>
+
+      <div className="app-subs-shell">
+        <div className="app-subs-card">
+          <div className="app-subs-head">
+            <h2>Vous avez 7 abonnements</h2>
+            <p>Accédez au détail de votre budget abonnements.</p>
+          </div>
+
+          <div className="subs-tabs">
+            <button className={"subs-tab" + (tab === 'detected'   ? " is-active" : "")} onClick={() => setTab('detected')}>
+              Mes contrats
+            </button>
+            <button className={"subs-tab" + (tab === 'potentials' ? " is-active" : "")} onClick={() => setTab('potentials')}>
+              Mes économies potentielles
+            </button>
+          </div>
+
+          <SubsGroup title="Tous les mois"   total="254,14€" items={monthly}    tab={tab} />
+          <SubsGroup title="Tous les 2 mois" total="86,40€"  items={bimonthly}  tab={tab} />
+          <SubsGroup title="1 fois par an"   total="56,00€"  items={yearly}     tab={tab} />
+
+          <div className="app-add-btn">
+            <a href="#" className="cta cta--ghost" onClick={e=>e.preventDefault()}>Ajouter un abonnement</a>
+          </div>
+        </div>
+
+        <div className="subs-rail-wrap">
+          <aside className="subs-rail-donut">
+            {tab === 'detected' ? (
+              <>
+                <div className="donut-wrap"><Donut segs={segs} /></div>
+                <div className="donut-legend">
+                  {segs.map((s, i) => (
+                    <div className="donut-legend__row" key={i}>
+                      <span className="donut-legend__dot" style={{ background: s.color }}></span>
+                      <span>{s.lbl}</span>
+                      <span className="donut-legend__amt">{s.val}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <SavingsBars />
+            )}
+          </aside>
+
+          <div className="subs-sync-card">
+            <div className="subs-sync-card__head">
+              <span className="subs-sync-card__dot"></span>
+              <div>
+                <h3 className="subs-sync-card__title">Synchronisez un autre compte bancaire</h3>
+                <p className="subs-sync-card__body">Certains abonnements peuvent être liés à un autre compte. Connectez-le pour une détection complète.</p>
+              </div>
+            </div>
+            <a href="#" className="cta cta--ghost" onClick={e=>e.preventDefault()}>Détecter des abonnements</a>
+          </div>
+        </div>
+      </div>
+
+      <AppFooter />
+    </div>
+  );
+}
+
+/* ============================================================
+   APP ROOT
+   ============================================================ */
+function App() {
+  const [active, setActive] = useState('home');
+  return (
+    <div className="app-shell">
+      <AppSidebar active={active} onNav={setActive} />
+      {active === 'subs'
+        ? <SubsScreen onBack={() => setActive('home')} />
+        : <HomeScreen onNav={setActive} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
